@@ -1,0 +1,105 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-icons/iron-icons.html">
+<link rel="import" href="../button-ids.html">
+<link rel="import" href="../input-ids.html">
+<link rel="import" href="../styleFiles/template1.html">
+
+<dom-module id="demo-element">
+  <template>
+    <style include="shared-styles">
+      .row-ids{
+        width: 100%;
+        display: inline-flex;
+      }
+      .col-ids-6{
+        width: 100%;
+      }
+      section{
+        padding: 20px;
+      }
+    </style>
+    <!-- <section>
+      <button-ids type-action="save" toggle-icon="done">Guardar</button-ids>
+      <button-ids type-action="cancel" toggle-icon="close">Cancelar</button-ids>
+      <button-ids type-action="edit" toggle-icon="create">Editar</button-ids>
+      <button-ids type-action="search" toggle-icon="search">Buscar</button-ids>
+      <hr />
+    </section> -->
+    <section class="row-ids">
+      <div class="col-ids-6">
+        <h4>Registro de contacto</h4>
+        <input-ids name-input="Nombre" pattern-input="[a-z]{3,15}" type-input="text"></input-ids>
+        <input-ids name-input="Correo" pattern-input="[^@\s]+@[^@\s]+" type-input="email"></input-ids>
+        <input-ids name-input="Telefono" pattern-input="[1-9]{8,15}" type-input="tel"></input-ids>
+        <input-ids name-input="Correo Trabajo" pattern-input="[1-9]{8,15}" type-input="email"></input-ids>
+        <br />
+        <button-ids type-action="save" toggle-icon="done">Guardar</button-ids>
+      </div>
+    </section>
+    <section>
+      <div class="row-ids">
+        <h4>Información capturada:</h4>
+      </div>
+      <div id="info-capturada">
+
+      </div>
+    </section>
+
+
+  </template>
+
+  <script>
+    class DemoElement extends Polymer.Element {
+      static get is() { return 'demo-element' }
+      static get properties() {
+        return {
+          info: {
+            type: Object,
+            value: () => {
+              return {};
+            }
+          }
+        }
+      }
+      _message(fav) {
+        if (fav) {
+          return 'You really like me!';
+        }
+        else {
+          return 'Do you like me?';
+        }
+      }
+
+      constructor () {
+        super();
+        this.addEventListener('btn-action', this.buttonEvent.bind(this));
+        this.addEventListener('input-action', this.renderInfo.bind(this));
+      }
+
+      buttonEvent (e) {
+        document.body.addEventListener('btn-action', (e) => {
+          console.warn(e.detail);
+        });
+      }
+
+      renderInfo (e) {
+        this.set(['info', e.detail.name], e.detail.value);
+        const infoFrag = document.createDocumentFragment();
+
+        Object.keys(this.info).forEach((key) => {
+          const div = document.createElement('div');
+          div.id = key;
+          div.textContent = `${key}: ${this.info[key]}`;
+          infoFrag.appendChild(div);
+        })
+
+        const container = this.shadowRoot.querySelector("#info-capturada");
+        container.innerHTML = '';
+        container.appendChild(infoFrag);
+        //console.warn(objInfo);
+      }
+    }
+
+    customElements.define(DemoElement.is, DemoElement);
+    </script>
+</dom-module>

@@ -1,0 +1,116 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+
+
+<dom-module id="button-ids">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+      button{
+        width: 100px;
+        height: 30px;
+        color: white;
+        font-size: 14px;
+        background-color: var(--var-color-bg);
+      }
+      button:hover{
+        background-color: #FFF;
+        color: var(--var-color-bg);
+        border: 2px solid var(--var-color-bg);
+      }
+      /*button{
+        width: 200px;
+        height: 50px;
+        color: white;
+        font-size: 16px;
+      }
+      :host([type-action="save"]) button{
+        background-color: var(--var-color-blue, rgb(158, 178, 196));
+      }
+      :host([type-action="save"]) button:hover{
+        background-color: #FFF;
+        color: var(--var-color-blue, rgb(158, 178, 196));
+        border: 2px solid var(--var-color-blue, rgb(158, 178, 196));
+      }
+
+      :host([type-action="cancel"]) button{
+        background-color: var(--var-color-red, rgb(158, 178, 196));
+      }
+      :host([type-action="cancel"]) button:hover{
+        background-color: #FFF;
+        color: var(--var-color-red, rgb(158, 178, 196));
+        border: 2px solid var(--var-color-red, rgb(158, 178, 196));
+      }
+
+      :host([type-action="edit"]) button{
+        background-color: var(--var-color-green, rgb(158, 178, 196));
+      }
+
+      :host([type-action="edit"]) button:hover{
+        background-color: #FFF;
+        color: var(--var-color-green, rgb(83, 142, 198));
+        border: 2px solid var(--var-color-green, rgb(83, 142, 198));
+      }
+      :host([type-action="search"]) button{
+        background-color: var(--var-color-bluelight, rgb(83, 142, 198));
+      }
+
+      :host([type-action="search"]) button:hover{
+        background-color: #FFF;
+        color: var(--var-color-bluelight, rgb(83, 142, 198));
+        border: 2px solid var(--var-color-bluelight, rgb(83, 142, 198));
+      }*/
+
+    </style>
+
+    <button>
+      <iron-icon icon="[[toggleIcon]]" ></iron-icon><slot></slot>
+    </button>
+  </template>
+
+  <script>
+    class ButtonIds extends Polymer.Element {
+      constructor() {
+        super();
+        //console.log(this);
+        this.addEventListener('click', this._eventHandler.bind(this));
+      }
+      static get is() {
+        return 'button-ids';
+      }
+      static get properties (){
+        return {
+          toggleIcon:{
+            type : String,
+            value : "polymer"
+          },
+          typeAction:{
+            type : String,
+            value : "Boton"
+          },
+          pressed: {
+            type: Boolean,
+            value:  false,
+            reflectToAtribute: true,
+            notify: true //** Crea un nuevo CustomEvent llamado pressed-changed
+          }
+        }
+      }
+      ready(){
+        super.ready();
+        ////console.warn(this.shadowRoot);
+        //this.addEventListener('click', this._eventHandler.bind(this));
+        //this.shadowRoot.querySelector('button[type-action="Guardar"]').addEventListener("click", this._eventHandler.bind(this))
+      }
+      _eventHandler(){
+        console.log(this.typeAction);
+        let action = this.dispatchEvent(new CustomEvent('btn-action', {detail: {action: this.typeAction}, bubbles: true, composed: true})); //kick
+        //console.log(action);
+      }
+
+    }
+    customElements.define(ButtonIds.is, ButtonIds);
+  </script>
+</dom-module>

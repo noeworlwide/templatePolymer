@@ -1,0 +1,82 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+
+
+<dom-module id="input-ids">
+  <template>
+    <style>
+      .row-ids{
+        display: inline-block;
+        width: 100%;
+      }
+      .col-6{
+        width: 50%;
+        display: grid;
+      }
+      input{
+        width: 200px;
+        height: 25px;
+      }
+      input:invalid{
+        background-color: rgba(241, 69, 69, 0.4);
+      }
+      input:valid{
+        background-color: rgba(79, 167, 96, 0.4);
+      }
+    </style>
+
+      <div class="col-6">
+        <!--<label>[[nameInput]]</label>-->
+        <input type="text" name="[[nameInput]]" on-input="_onInputChange" placeholder="[[nameInput]]" pattern="" title="Invalid email address" required>
+      </div>
+  </template>
+
+  <script>
+    class InputIds extends Polymer.Element {
+      constructor() {
+        super();
+      }
+      static get is() {
+        return 'input-ids';
+      }
+      static get properties (){
+        return {
+          nameInput:{
+            type: String,
+            value : ""
+          },
+          valueInput:{
+            type : String,
+            value : ""
+          },
+          patternInputExp:{
+            type : String,
+            value : "[a-z]{3,15}"
+          }
+        }
+      }
+      ready(){
+        super.ready();
+        this.patternInputValid();
+        ////console.warn(this.shadowRoot);
+        //this.addEventListener('click', this._eventHandler.bind(this));
+        //this.shadowRoot.querySelector('button[type-action="Guardar"]').addEventListener("click", this._eventHandler.bind(this))
+      }
+      _eventHandler(){
+         //kick
+        //console.log(action);
+      }
+      _onInputChange(event) {
+        const target = event.path[0];
+        // const target = this.shadowRoot.querySelector('input');
+        this.dispatchEvent(new CustomEvent('input-action', {detail: { name: target.name, value: target.value }, bubbles: true, composed: true}));
+      }
+      patternInputValid(e){
+        //console.log("llego aqui");
+        //this.patternInputExp =  "[a-z]{3,15}";
+      }
+
+    }
+    customElements.define(InputIds.is, InputIds);
+  </script>
+</dom-module>

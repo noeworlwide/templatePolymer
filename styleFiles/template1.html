@@ -1,0 +1,23 @@
+<dom-module id="shared-styles">
+  <template>
+    <style>
+      :host {
+        font-family: sans-serif;
+      }
+
+      button-ids[type-action="cancel"]{
+        --var-color-bg : var(--var-color-red );
+      }
+      button-ids[type-action="save"]{
+        --var-color-bg : var(--var-color-blue);
+      }
+      button-ids[type-action="edit"]{
+        --var-color-bg : var(--var-color-green);
+      }
+      button-ids[type-action="search"]{
+        --var-color-bg : var(--var-color-orange);
+      }
+
+    </style>
+  </template>
+</dom-module>
